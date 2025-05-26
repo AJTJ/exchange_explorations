@@ -15,7 +15,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
     let input_file = &args[1];
     let file = File::open(input_file)?;
-    let mut rdr = ReaderBuilder::new().comment(Some(b'#')).from_reader(file);
+    let mut rdr = ReaderBuilder::new()
+        .trim(csv::Trim::All)
+        .comment(Some(b'#'))
+        .from_reader(file);
 
     // Stream each record one at a time to avoid loading the entire file into memory
     for result in rdr.deserialize() {
